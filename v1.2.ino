@@ -177,7 +177,7 @@ void setup() {
   setLED(ledD_R, ledD_G, ledD_B, LOW, LOW, LOW);
   setLED(ledE_R, ledE_G, ledE_B, LOW, LOW, LOW);
 
-  // ---- Calibração BRANCO Direita ----
+  // ---- Calibração BRANCO Esquerda ----
   Serial.println("===== SENSOR DIREITA =====");
   Serial.println("1) Aponte o sensor para o BRANCO e pressione o botao...");
   setLED(ledE_R, ledE_G, ledE_B, HIGH, HIGH, HIGH);
@@ -185,14 +185,14 @@ void setup() {
   medirCoresE(R_brancoE, G_brancoE, B_brancoE);  // mede as 3 cores
   mostrarCalibracao("Branco", R_brancoE, G_brancoE, B_brancoE);
 
-  // ---- Calibração PRETO Direita ----
+  // ---- Calibração PRETO Esquerda ----
   Serial.println("\n2) Aponte o sensor para o PRETO e pressione o botao...");
   setLED(ledE_R, ledE_G, ledE_B, LOW, LOW, LOW);
   esperarBotao();
   medirCoresE(R_pretoE, G_pretoE, B_pretoE);
   mostrarCalibracao("Preto", R_pretoE, G_pretoE, B_pretoE);
 
-  // ---- Calibração VERDE Direita ----
+  // ---- Calibração VERDE Esquerda ----
   Serial.println("\n3) Aponte o sensor para o VERDE e pressione o botao...");
   setLED(ledE_R, ledE_G, ledE_B, LOW, HIGH, LOW);
   esperarBotao();
