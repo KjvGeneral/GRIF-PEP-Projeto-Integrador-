@@ -418,7 +418,7 @@ void medirCoresE(unsigned long &R, unsigned long &G, unsigned long &B) {
 
 // --- Mede a frequência do pino OUT (proporcional à intensidade da cor) ---
 // --- Sensores ---
-unsigned long medirFreq(&OUT) {
+unsigned long medirFreq(unsigned long &OUT) {
   // pulseIn mede o tempo em microssegundos de um pulso LOW
   // 100000 µs = 100 ms → tempo máximo de espera
   unsigned long duracao = pulseIn(OUT, LOW, 100000);
