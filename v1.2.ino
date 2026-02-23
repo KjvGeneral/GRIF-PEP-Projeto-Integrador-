@@ -20,6 +20,7 @@
 // --------------------- Bibliotecas -----------------------
 
 #include <AFMotor.h>  //biblioteca da Sheild
+// #include <Sensor Ultrassonico>
 
 // ------------------ Definição dos pinos ------------------
 
@@ -362,81 +363,6 @@ void setLED(int R, int G, int B, bool rVal, bool gVal, bool bVal) {
   digitalWrite(B, !bVal);
 }
 
-
-// --- Mede R, G e B individualmente usando os filtros do TCS3200 ---
-// --- Lado Direito ---
-void medirCoresD(unsigned long &R, unsigned long &G, unsigned long &B) {
-  // Seleciona filtro vermelho (S2=LOW, S3=LOW)
-  digitalWrite(S2_D, LOW);
-  digitalWrite(S3_D, LOW);
-  delay(50);
-  R = medirFreq_D();  // mede frequência correspondente à cor vermelha
-
-  // Seleciona filtro verde (S2=HIGH, S3=HIGH)
-  digitalWrite(S2_D, HIGH);
-  digitalWrite(S3_D, HIGH);
-  delay(50);
-  G = medirFreq_D();
-
-  // Seleciona filtro azul (S2=LOW, S3=HIGH)
-  digitalWrite(S2_D, LOW);
-  digitalWrite(S3_D, HIGH);
-  delay(50);
-  B = medirFreq_D();
-}
-// --- Lado Esquerdo ---
-void medirCoresE(unsigned long &R, unsigned long &G, unsigned long &B) {
-  // Seleciona filtro vermelho (S2=LOW, S3=LOW)
-  digitalWrite(S2_E, LOW);
-  digitalWrite(S3_E, LOW);
-  delay(50);
-  R = medirFreq_E();  // mede frequência correspondente à cor vermelha
-
-  // Seleciona filtro verde (S2=HIGH, S3=HIGH)
-  digitalWrite(S2_E, HIGH);
-  digitalWrite(S3_E, HIGH);
-  delay(50);
-  G = medirFreq_E();
-
-  // Seleciona filtro azul (S2=LOW, S3=HIGH)
-  digitalWrite(S2_E, LOW);
-  digitalWrite(S3_E, HIGH);
-  delay(50);
-  B = medirFreq_E();
-}
-
-
-// --- Mede a frequência do pino OUT (proporcional à intensidade da cor) ---
-// --- Sensor Direita ---
-unsigned long medirFreq_D() {
-  // pulseIn mede o tempo em microssegundos de um pulso LOW
-  // 100000 µs = 100 ms → tempo máximo de espera
-  unsigned long duracao = pulseIn(OUT_D, LOW, 100000);
-  if (duracao == 0) return 0;  // caso de falha de leitura
-  return 1000000UL / duracao;  // converte o período em frequência (Hz)
-}
-//--- Sensor Esquerda ---
-unsigned long medirFreq_E() {
-  // pulseIn mede o tempo em microssegundos de um pulso LOW
-  // 100000 µs = 100 ms → tempo máximo de espera
-  unsigned long duracao = pulseIn(OUT_E, LOW, 100000);
-  if (duracao == 0) return 0;  // caso de falha de leitura
-  return 1000000UL / duracao;  // converte o período em frequência (Hz)
-}
-
-
-// --- Exibe os valores medidos no monitor serial ---
-void mostrarCalibracao(const char *nome, unsigned long R, unsigned long G, unsigned long B) {
-  Serial.print(nome);
-  Serial.print(" -> R: ");
-  Serial.print(R);
-  Serial.print("  G: ");
-  Serial.print(G);
-  Serial.print("  B: ");
-  Serial.println(B);
-}
-
-
 // Aguarda o botão ser pressionado e solto
 void esperarBotao() {
   while (digitalRead(botao) == HIGH)
@@ -445,6 +371,90 @@ void esperarBotao() {
   while (digitalRead(botao) == LOW)
     ;  // esperando soltar
   delay(200);
+}
+
+// --- Mede R, G e B individualmente usando os filtros do TCS3200 ---
+// --- Lado Direito ---
+void medirCoresD(unsigned long &R, unsigned long &G, unsigned long &B) {
+  // Seleciona filtro vermelho (S2=LOW, S3=LOW)
+  digitalWrite(S2_D, LOW);
+  digitalWrite(S3_D, LOW);
+  delay(50);
+  R = medirFreq(OUT_D);  // mede frequência correspondente à cor vermelha
+
+  // Seleciona filtro verde (S2=HIGH, S3=HIGH)
+  digitalWrite(S2_D, HIGH);
+  digitalWrite(S3_D, HIGH);
+  delay(50);
+  G = medirFreq(OUT_D);
+
+  // Seleciona filtro azul (S2=LOW, S3=HIGH)
+  digitalWrite(S2_D, LOW);
+  digitalWrite(S3_D, HIGH);
+  delay(50);
+  B = medirFreq(OUT_D);
+}
+// --- Lado Esquerdo ---
+void medirCoresE(unsigned long &R, unsigned long &G, unsigned long &B) {
+  // Seleciona filtro vermelho (S2=LOW, S3=LOW)
+  digitalWrite(S2_E, LOW);
+  digitalWrite(S3_E, LOW);
+  delay(50);
+  R = medirFreq(OUT_E);  // mede frequência correspondente à cor vermelha
+
+  // Seleciona filtro verde (S2=HIGH, S3=HIGH)
+  digitalWrite(S2_E, HIGH);
+  digitalWrite(S3_E, HIGH);
+  delay(50);
+  G = medirFreq(OUT_E);
+
+  // Seleciona filtro azul (S2=LOW, S3=HIGH)
+  digitalWrite(S2_E, LOW);
+  digitalWrite(S3_E, HIGH);
+  delay(50);
+  B = medirFreq(OUT_E);
+}
+
+
+// --- Mede a frequência do pino OUT (proporcional à intensidade da cor) ---
+// --- Sensores ---
+unsigned long medirFreq(&OUT) {
+  // pulseIn mede o tempo em microssegundos de um pulso LOW
+  // 100000 µs = 100 ms → tempo máximo de espera
+  unsigned long duracao = pulseIn(OUT, LOW, 100000);
+  if (duracao == 0) return 0;  // caso de falha de leitura
+  return 1000000UL / duracao;  // converte o período em frequência (Hz)
+}
+
+//--- Sensor Esquerda ---
+//unsigned long medirFreq_E() {
+//  // pulseIn mede o tempo em microssegundos de um pulso LOW
+//  // 100000 µs = 100 ms → tempo máximo de espera
+//  unsigned long duracao = pulseIn(OUT_E, LOW, 100000);
+//  if (duracao == 0) return 0;  // caso de falha de leitura
+//  return 1000000UL / duracao;  // converte o período em frequência (Hz)
+//}
+//
+//--- Sensor Direita ---
+//unsigned long medirFreq_D() {
+//  // pulseIn mede o tempo em microssegundos de um pulso LOW
+//  // 100000 µs = 100 ms → tempo máximo de espera
+//  unsigned long duracao = pulseIn(OUT_D, LOW, 100000);
+//  if (duracao == 0) return 0;  // caso de falha de leitura
+//  return 1000000UL / duracao;  // converte o período em frequência (Hz)
+//}
+
+
+// --- Exibe os valores medidos no monitor serial ---
+// --- O ponteiro esta apontando para as Strings de entrada ---
+void mostrarCalibracao(const char *nome, unsigned long R, unsigned long G, unsigned long B) {
+  Serial.print(nome);
+  Serial.print(" -> R: ");
+  Serial.print(R);
+  Serial.print("  G: ");
+  Serial.print(G);
+  Serial.print("  B: ");
+  Serial.println(B);
 }
 
 // Função para mover os motores
