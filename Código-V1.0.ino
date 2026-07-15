@@ -158,7 +158,7 @@ void loop() {
 // Aguarda o receber INPUT do Serial da IDE
 void esperarBotao() {
   while (Serial.available() == 0){
-    Seria.read(); // lê oque entra no Serial da IDE
+    Serial.read(); // lê oque entra no Serial da IDE
     }
   delay(200);
   while (Serial.available() >= 1){
