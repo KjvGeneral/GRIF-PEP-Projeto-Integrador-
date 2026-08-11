@@ -92,13 +92,21 @@ void setup() {
   medirCores(R_preto, G_preto, B_preto);
   mostrarCalibracao("Preto", R_preto, G_preto, B_preto);
 
-  /* 
-  Não vou ustilizar mais a calibração do verde pois notei que ele no loop principal nunca era realmente 
-  utilizado. Já tinha notado ano passado mas deixei para revisar esse ano no meu projeto integrador.
-  O fluxo não muda nd, ele apenas le oque e maximo e minimo de claridade e o RGB funciona nesse maximo e
-  minimo, para o sensor saber oque e preto e branco e n ficar ossilando doidamente,
-  */
+    // ---- Calibração VERDE ----
+  Serial.println("\n3) Aponte o sensor para o VERDE e pressione o botao...");
+  esperarBotao();
+  medirCores(R_verde, G_verde, B_verde);
+  mostrarCalibracao("Verde", R_verde, G_verde, B_verde);
 
+  // Depois coloco o vermelho
+
+  /* Num teste em sala de aula tive me deu um toque de como usar o dados calibrads de verde 
+  para deixar mais preciso como é o objetivo, entao agora coloquei de volta e estou trantando
+  esses dados no if dentro do loop principal.
+   A antiga maneira para outrs projeto continua sendo eficiente, mas para meu caso esse jeito 
+   acaba reduzindo erros que não são tolerados mesmo que pequenos.
+  */
+    
   Serial.println("\nCalibracao concluida. Iniciando leitura continua...\n");
   delay(500);
 }
@@ -129,25 +137,23 @@ void loop() {
   Serial.print("   -> ");
 
   // Identificação simples de cor (classificação básica)
-  // Pr == provavelmente -> para n travar o arduino
-  if (R_norm > 150 && G_norm > 150 && B_norm > 150)
-    Serial.println("Pr BRANCO");
-  else if (R_norm > 2*G_norm && R_norm > 2*B_norm)
-    Serial.println("Pr VERMELHO");
-  else if (G_norm > R_norm && G_norm > 2 * B_norm)
-    Serial.println("Pr VERDE");
-  else if (B_norm > R_norm && B_norm > G_norm)
-    Serial.println("Pr AZUL");
-  else if (R_norm < 30 && G_norm < 30 && B_norm < 30)
-    Serial.println("Pr PRETO");
+  // Aqui eu deixei meio que "duas comparações de comparações" para assim validar a cor
+  // Recomendo que anres de testar direto, veja os valores maximo e minimos de cada cor para ver se precisa mudar no if.
+  if((R_atual == R_branco || G_atual == G_branco || B_atual == B_branco) || (R_norm > 700 && G_norm > 700 && B_norm > 700)){
+    Serial.println("Branco");
+  }
+  else if((R_atual < R_verde || G_atual >= G_verde || B_atual < R_verde) && (R_norm < G_norm && B_norm < G_norm)){
+    Serial.println("Verde");
+  }
+  else if((R_atual == R_preto || G_atual == G_preto || B_atual == B_preto) || (R_norm < 150 && G_norm < 150 && B_norm < 150)){
+    Serial.println("Preto");
+  }
+  else{
+    Serial.println("Nsei"); // Serve como a antiga cor mista, so para apacer mais rápido do Serial.
+  }
 
 
-
-  /*
-  else
-    Serial.println("Cor intermediaria ou mista");
-  */
-  delay(50);  // intervalo entre leituras
+  delay(50);  // intervalo entre leituras -> no codigo final vai sumir...
 }
 
 
