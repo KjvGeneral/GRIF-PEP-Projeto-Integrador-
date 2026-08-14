@@ -154,7 +154,7 @@ void loop() {
   if((DR_atual == DR_branco || DG_atual == DG_branco || DB_atual == DB_branco) || (DR_norm > 700 && DG_norm > 700 && DB_norm > 700)){
     Serial.println("D__BRANCO");
   }
-  else if((DR_atual < DR_verde || DG_atual >= DG_verde || DB_atual < DB_atual) || (DR_norm < DG_norm && DG_norm && DB_norm < DG_norm)){
+  else if((DR_atual < DR_verde || DG_atual >= DG_verde || DB_atual < DB_atual) || (DR_norm < DG_norm && DB_norm < DG_norm)){
     Serial.println("D__VERDE");
   }
   else if((DR_atual == DR_preto || DG_atual == DG_preto || DB_atual == DB_preto) || (DR_norm < 150 && DG_norm < 150 && DB_norm < 150)){
@@ -166,7 +166,7 @@ void loop() {
   else if((ER_atual == ER_branco || EG_atual == EG_branco || EB_atual == EG_branco) || (ER_norm >= 700 && EG_norm >= 700 && EB_norm >= 700)){
     Serial.println("E__BRANCO");
   }
-  else if((ER_atual < ER_verde || EG_atual == EG_verde || EB_atual < EB_verde) || (ER_norm < ER_verde && EG_norm == EG_verde && EB_norm < EB_verde)){
+  else if((ER_atual < ER_verde || EG_atual == EG_verde || EB_atual < EB_verde) || (ER_norm < ER_verde && EB_norm < EB_verde)){
     Serial.println("E__VERDE");
   }
   else if((ER_atual == ER_preto || EG_atual == EG_preto || EB_atual == EB_preto) || (ER_preto < 150 && EG_preto < 150 && EB_preto < 150)){
