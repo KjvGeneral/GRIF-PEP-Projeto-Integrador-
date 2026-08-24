@@ -13,15 +13,15 @@
 
 //      Canal A
 const int A_ho  = 4;  // -> Sentido Horário
-      int A_ah  = 9;  // -> Sentido Ant-horário
-      int A_pwm = 6;  // -> Velocidade - pwm do motor
-      int A_En  = A1; // -> Pino de enable do canal A
+const int A_ah  = 9;  // -> Sentido Ant-horário
+const int A_pwm = 6;  // -> Velocidade - pwm do motor
+const int A_En  = A1; // -> Pino de enable do canal A
 
 //      Canal B
 const int B_ho  = 7;  // -> Sentido Horário
-      int B_ah  = 8;  // -> Sentido Ant-horário
-      int B_pwm = 5;  // -> Velocidade - pwm do motor
-      int B_En  = A0; // -> Pino de enable do canal B
+const int B_ah  = 8;  // -> Sentido Ant-horário
+const int B_pwm = 5;  // -> Velocidade - pwm do motor
+const int B_En  = A0; // -> Pino de enable do canal B
 
 
 // ---- CONFIGURAÇÃO DOS 2 - SENSORES TCS3200 ----
@@ -86,7 +86,12 @@ void setup() {
 
   //     Calibração dos Sensore de cor - TCS3200
   //     = Sensor Esquerdo =
-
+  
+  // Define escala de frequência de saída do TCS3200 (S0=HIGH, S1=LOW → 20%)
+  // Isso reduz a frequência de saída, tornando a leitura mais estável.
+  digitalWrite(E_S0, HIGH);
+  digitalWrite(E_S1, LOW);
+  
   Serial.println("\n1-) Aponte para o BRANCO com o sensor ESQUERDO!...\n");
   esperarBotao();
   medirCores(E_S2, E_S3, E_Out, ER_branco, EB_branco, EG_branco);
@@ -108,6 +113,12 @@ void setup() {
   Serial.println("Verde calibrado");
 
   //    = Sensor Direito =
+  
+  // Define escala de frequência de saída do TCS3200 (S0=HIGH, S1=LOW → 20%)
+  // Isso reduz a frequência de saída, tornando a leitura mais estável.
+  digitalWrite(D_S0, HIGH);
+  digitalWrite(D_S1, LOW);
+  
   Serial.println("\n4-) Aponte para o BRANCO com o sensor DIREITO!...\n");
   esperarBotao();
   medirCores(D_S2, D_S3, D_Out, DR_branco, DG_branco, DB_branco);
