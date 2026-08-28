@@ -84,6 +84,10 @@ void setup() {
     }
   }
 
+  // --- Ativição dos canais A e B da shield ---
+  digitalWrite(B_En, HIGH);
+  digitalWrite(A_en, HIGH);
+
   //     Calibração dos Sensore de cor - TCS3200
   //     = Sensor Esquerdo =
   
