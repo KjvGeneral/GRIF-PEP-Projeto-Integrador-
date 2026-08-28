@@ -72,13 +72,13 @@ void setup() {
   //     Configuração dos pinos
   for(int i = 0; i < 18; i++){
 
-    digitalWrite(ConfigPins[i], OUTPUT);
+    pinMode(ConfigPins[i], OUTPUT);
     Serial.print(ConfigPins[i]);
     Serial.println(" - Foi configurado como OUTPUT com sucesso!!");
 
     if(ConfigPins[i] == 17 || ConfigPins[i] == 22){
 
-      digitalWrite(ConfigPins[i], INPUT);
+      pinMode(ConfigPins[i], INPUT);
       Serial.print(ConfigPins[i]);
       Serial.println(" - Foi configurado como INPUT com sucesso!!");
     }
