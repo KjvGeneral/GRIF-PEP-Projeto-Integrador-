@@ -191,6 +191,9 @@ void loop() {
     Serial.println("Nsei");
   }
 
+  // Vou adicionar o PID quando estiver finalizado pois esta em estado de prototipo 
+  // Ainda estou indeciso se usos os sensore de cor para auxiliar o sensores IR
+
 
 }
 
