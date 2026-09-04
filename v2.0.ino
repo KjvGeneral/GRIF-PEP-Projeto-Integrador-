@@ -193,7 +193,7 @@ void loop() {
 
   // Vou adicionar o PID quando estiver finalizado pois esta em estado de prototipo 
   // Ainda estou indeciso se usos os sensore de cor para auxiliar o sensores IR
-
+  // github.com/KjvGeneral/Teste-do-meu-barramento-IR-gambiarra/blob/main/2-0%20-%20prototipo.ino
 
 }
 
